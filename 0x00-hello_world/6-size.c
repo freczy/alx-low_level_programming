@@ -12,7 +12,7 @@ int main(void)
 
 	printf("Size of a int: %zu bytes\n", sizeof(intType));
 	printf("size of an float: %zu bytes\n", sizeof(floatType));
-	printf("Size of a double: %zu bytes\n", sizeof(doubleType);
+	printf("Size of a double: %zu bytes\n", sizeof(doubleType));
 	printf("size of a char: %zu bytes\n", sizeof(charType));
 
 	return (0);
