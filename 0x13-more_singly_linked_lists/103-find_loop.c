@@ -1,10 +1,11 @@
 #include "lists.h"
 
 /**
- * find_listint_loop - this locates the loop in a linked list.
- * @head: pointing to the beginning of the list
- * Return: this returns the add of node where loop starts or NULL if there's no loop
+ * find_listint_loop - this locates loop in linked list.
+ * @head: point to start of the list
+ * Return: returns add of node where loop starts or NULL if there's no loop
  */
+
 listint_t *find_listint_loop(listint_t *head)
 {
 	listint_t *rabbit, *hare;
