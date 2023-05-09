@@ -21,20 +21,20 @@ void code97(int argc)
  * code98 - checks if file_from exists and can be read
  * @check: checks if its true of false
  * @file: file_from name
- * @fl_from: file descriptor of fl_from, or -1
- * @fl_to: file descriptor of fl_to, or -1
+ * @fd_from: file descriptor of fl_from, or -1
+ * @fd_to: file descriptor of fl_to, or -1
  *
  * Return: void
  */
-void code98(ssize_t check, char *file, int fl_from, int fl_to)
+void code98(ssize_t check, char *file, int fd_from, int fd_to)
 {
 	if (check == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file);
-		if (fl_from != -1)
-			close(fl_from);
-		if (fl_to != -1)
-			close(fl_to);
+		if (fd_from != -1)
+			close(fd_from);
+		if (fd_to != -1)
+			close(fd_to);
 		exit(98);
 	}
 }
@@ -43,20 +43,20 @@ void code98(ssize_t check, char *file, int fl_from, int fl_to)
  * code99 - checks that fl_to was created and|or can be written to
  * @check: checks if True or False
  * @file: file_to name
- * @fl_from: file descriptor of fl_from, or -1
- * @fl_to: file descriptor of fl_to, or -1
+ * @file_from: file descriptor of file_from, or -1
+ * @file_to: file descriptor of file_to, or -1
  *
  * Return: void
  */
-void code99(ssize_t check, char *file, int fl_from, int fl_to)
+void code99(ssize_t check, char *file, int file_from, int file_to)
 {
 	if (check == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
-		if (fl_from != -1)
-			close(fl_from);
-		if (fl_to != -1)
-			close(fl_to);
+		if (file_from != -1)
+			close(file_from);
+		if (file_to != -1)
+			close(file_to);
 		exit(99);
 	}
 }
@@ -64,15 +64,15 @@ void code99(ssize_t check, char *file, int fl_from, int fl_to)
 /**
  * code100 - checks if file descriptors were closed properly
  * @check: checks if true|false
- * @fl: file descriptor
+ * @fd: file descriptor
  *
  * Return: void
  */
-void code100(int check, int fl)
+void code100(int check, int fd)
 {
 	if (check == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fl %d\n", fl);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
 		exit(100);
 	}
 }
@@ -85,30 +85,30 @@ void code100(int check, int fl)
  */
 int main(int argc, char *argv[])
 {
-	int fl_from, fl_to, close_to, close_from;
+	int file_from, file_to, close_to, close_from;
 	ssize_t lenr, lenw;
 	char buffer[1024];
 	mode_t file_perm;
 
 	code97(argc);
-	fl_from = open(argv[1], O_RDONLY);
-	code98((ssize_t)fl_from, argv[1], -1, -1);
+	file_from = open(argv[1], O_RDONLY);
+	code98((ssize_t)file_from, argv[1], -1, -1);
 	file_perm = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
-	fl_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, file_perm);
-	code99((ssize_t)fl_to, argv[2], fl_from, -1);
+	file_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, file_perm);
+	code99((ssize_t)file_to, argv[2], file_from, -1);
 	lenr = 1024;
 	while (lenr == 1024)
 	{
-		lenr = read(fl_from, buffer, 1024);
-		code98(lenr, argv[1], fl_from, fl_to);
-		lenw = write(fl_to, buffer, lenr);
+		lenr = read(file_from, buffer, 1024);
+		code98(lenr, argv[1], file_from, file_to);
+		lenw = write(file_to, buffer, lenr);
 		if (lenw != lenr)
 			lenw = -1;
-		code99(lenw, argv[2], fl_from, fl_to);
+		code99(lenw, argv[2], file_from, file_to);
 	}
-	close_to = close(fl_to);
-	close_from = close(fl_from);
-	code100(close_to, fl_to);
-	code100(close_from, fl_from);
+	close_to = close(file_to);
+	close_from = close(file_from);
+	code100(close_to, file_to);
+	code100(close_from, file_from);
 	return (0);
 }
