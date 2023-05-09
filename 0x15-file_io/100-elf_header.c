@@ -6,16 +6,16 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+void check_elf(unsigned char *e_ident);
+void print_magic(unsigned char *e_ident);
+void print_class(unsigned char *e_ident);
+void print_data(unsigned char *e_ident);
 void print_version(unsigned char *e_ident);
 void print_abi(unsigned char *e_ident);
 void print_osabi(unsigned char *e_ident);
 void print_type(unsigned int e_type, unsigned char *e_ident);
 void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 void close_elf(int elf);
-void check_elf(unsigned char *e_ident);
-void print_magic(unsigned char *e_ident);
-void print_class(unsigned char *e_ident);
-void print_data(unsigned char *e_ident);
 
 /**
  * check_elf - Checks if a file is an (ELF) file.
@@ -178,34 +178,9 @@ void print_osabi(unsigned char *e_ident)
 }
 
 /**
- * print_entry - the entry point of an ELF header is printed.
- * @e_entry: The add of the ELF entry point.
- * @e_ident: points to an array that contains the ELF class.
- */
-
-void print_entry(unsigned long int e_entry, unsigned char *e_ident)
-{
-	printf("  Entry point address:               ");
-
-	if (e_ident[EI_DATA] == ELFDATA2MSB)
-	{
-		e_entry = ((e_entry << 8) & 0xFF00FF00) |
-			  ((e_entry >> 8) & 0xFF00FF);
-		e_entry = (e_entry << 16) | (e_entry >> 16);
-	}
-
-	if (e_ident[EI_CLASS] == ELFCLASS32)
-		printf("%#x\n", (unsigned int)e_entry);
-
-	else
-		printf("%#lx\n", e_entry);
-}
-
-/**
  * print_abi - Prints out the ABI ver of an ELF header.
  * @e_ident: points to the array that contains the ELF ABI version.
  */
-
 void print_abi(unsigned char *e_ident)
 {
 	printf(" ABI Version: %d\n",
@@ -248,6 +223,31 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
 }
 
 /**
+ * print_entry - the entry point of an ELF header is printed.
+ * @e_entry: The add of the ELF entry point.
+ * @e_ident: points to an array that contains the ELF class.
+ */
+
+void print_entry(unsigned long int e_entry, unsigned char *e_ident)
+{
+	printf("  Entry point address:               ");
+
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+	{
+		e_entry = ((e_entry << 8) & 0xFF00FF00) |
+			  ((e_entry >> 8) & 0xFF00FF);
+		e_entry = (e_entry << 16) | (e_entry >> 16);
+	}
+
+	if (e_ident[EI_CLASS] == ELFCLASS32)
+		printf("%#x\n", (unsigned int)e_entry);
+
+	else
+		printf("%#lx\n", e_entry);
+}
+
+
+/**
  * close_elf - this closes an ELF file.
  * @elf: The descriptor of the ELF file.
  *
@@ -272,8 +272,8 @@ void close_elf(int elf)
  *
  * Return: 0 on success.
  *
- * Description: If the file is not an ELF File or
- *              the function fails - exit code 98.
+ * Description: If the file isn't an ELF File or
+ *              if function fails - exit code 98.
  */
 
 int main(int __attribute__((__unused__)) argc, char *argv[])
