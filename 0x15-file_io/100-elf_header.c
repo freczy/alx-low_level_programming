@@ -88,7 +88,7 @@ void print_class(unsigned char *e_ident)
 }
 
 /**
- * Print_data - Prints the data of an ELF header.
+ * print_data - Prints the data of an ELF header.
  * @e_ident: A pointer to an array containing the ELF class.
  */
 void print_data(unsigned char *e_ident)
@@ -112,12 +112,12 @@ void print_data(unsigned char *e_ident)
 }
 
 /**
- * Print_version - Prints the ver of an ELF header.
+ * print_version - Prints the ver of an ELF header.
  * @e_ident: A pointer to an arr that contains the ELF version.
  */
 void print_version(unsigned char *e_ident)
 {
-	printf("  Version:                           %d",
+	printf("  Version:           %d",
 	       e_ident[EI_VERSION]);
 
 	switch (e_ident[EI_VERSION])
@@ -132,7 +132,7 @@ void print_version(unsigned char *e_ident)
 }
 
 /**
- * print osabi - Prints the OS|ABI of the ELF header.
+ * print_osabi - Prints the OS|ABI of the ELF header.
  * @e_ident: A pointer to an array that contains the ELF version.
  */
 void print_osabi(unsigned char *e_ident)
@@ -182,6 +182,7 @@ void print_osabi(unsigned char *e_ident)
  * @e_entry: The add of the ELF entry point.
  * @e_ident: points to an array that contains the ELF class.
  */
+
 void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
 	printf("  Entry point address:               ");
@@ -204,6 +205,7 @@ void print_entry(unsigned long int e_entry, unsigned char *e_ident)
  * print_abi - Prints out the ABI ver of an ELF header.
  * @e_ident: points to the array that contains the ELF ABI version.
  */
+
 void print_abi(unsigned char *e_ident)
 {
 	printf(" ABI Version: %d\n",
@@ -215,6 +217,7 @@ void print_abi(unsigned char *e_ident)
  * @e_type: The ELF type.
  * @e_ident: pointing to the array containing the ELF class.
  */
+
 void print_type(unsigned int e_type, unsigned char *e_ident)
 {
 	if (e_ident[EI_DATA] == ELFDATA2MSB)
@@ -250,6 +253,7 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
  *
  * Description: If file can't be closed - exit code 98.
  */
+
 void close_elf(int elf)
 {
 	if (close(elf) == -1)
