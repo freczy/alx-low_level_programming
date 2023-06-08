@@ -15,7 +15,6 @@ int check(int a, int b)
 	else
 		return (check(a + 1, b));
 }
-
 /**
  * is_prime_number - states if number is prime
  * @n:int
