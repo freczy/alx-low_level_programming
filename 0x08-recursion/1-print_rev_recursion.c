@@ -4,7 +4,8 @@
  * @s: this is a string
  * Returns 0;
  *
- * */
+ * 
+ */
 
 void _print_rev_recursion(char *s)
 {

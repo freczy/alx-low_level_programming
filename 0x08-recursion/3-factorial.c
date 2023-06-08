@@ -3,7 +3,8 @@
  * factorial - this is factorial of int
  * @n:integer
  * Return:returns int
- **/
+ *
+ */
 int factorial(int n)
 {
 	int x;
